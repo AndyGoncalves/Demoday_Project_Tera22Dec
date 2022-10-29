@@ -1,4 +1,4 @@
-# Demoday_Tera_class202204
+# Pricing_Technology_Salary
 
 Final project in Data Science and Machine Learning course. 
 Team (Brazil)- Andréia Gonçalves, Ezequiel, Marcos and Tamara.
