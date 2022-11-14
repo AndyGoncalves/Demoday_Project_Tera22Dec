@@ -2,7 +2,13 @@ import streamlit as st
 import pandas as pd
 
 #nomear
-st.header("Perfil do usuário - inputs")
+st.header("DEMODAY TITULO")
+
+#colocar imagem
+from PIL import Image
+image = Image.open('sunrise.jpg')
+
+st.image(image, caption='Sunrise by the mountains')
 
 # importar os dados que serão usados no modelo
 df = pd.read_csv("1_filter.csv")
@@ -24,9 +30,11 @@ ticker3 = st.sidebar.selectbox(
     'Qual a sua raça?',
      raca)
 
-name = st.text_input("Qual é o seu nome?")
+name = st.text_input("Olá. Qual é o seu nome?")
 
 if(len(name)>0):
-    st.write(f'Seu nome é {name}')
+    st.write(f'{name}, conforme seu perfil, seu salário seria:')
 else:
     st.write('Favor inserir seu nome!')
+    
+    
