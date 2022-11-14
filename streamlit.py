@@ -8,3 +8,10 @@ if(len(name)>0):
     st.write(f'Seu nome é {name}')
 else:
     st.write('Favor inserir seu nome!')
+
+st.header("Arquivo usado")
+
+uploaded_file = st.file_uploader("Choose a file")
+if uploaded_file is not None:
+    dataframe = pd.read_csv(uploaded_file)
+    st.write(dataframe)
