@@ -3,9 +3,12 @@ import pandas as pd
 
 st.header("Perfil do usuário - inputs")
 
-profissoes = pd.read_csv("profissoesti.csv")
+df = pd.read_csv("Demoday_Project_Tera22Dec/1_filter.csv")
+profissoes = df['nome_ocu'].sort_values().tolist() 
 
-st.write(profissoes)
+ticker = st.sidebar.selectbox(
+    'Escolha uma profissão',
+     profissoes)
 
 name = st.text_input("Qual é o seu nome?")
 
