@@ -1,9 +1,11 @@
 import streamlit as st
 import pandas as pd
 
-st.header("Predição salário TERA")
+st.header("Perfil do usuário")
 
 profissoes = pd.read_csv("profissoesti.csv")
+
+nome_profissao = st.selectbox(st.write(profissoes))
 
 name = st.text_input("Qual é o seu nome?")
 
@@ -12,9 +14,13 @@ if(len(name)>0):
 else:
     st.write('Favor inserir seu nome!')
 
-st.header("Arquivo usado")
+
+data = pd.DataFrame({Prof:profissoes},index=[0])
+
+st.header("Suba um arquivo")
 
 uploaded_file = st.file_uploader("Choose a file")
 if uploaded_file is not None:
     dataframe = pd.read_csv(uploaded_file)
     st.write(dataframe)
+
