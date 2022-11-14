@@ -4,12 +4,7 @@ import pandas as pd
 #nomear
 st.header("DEMODAY TITULO")
 
-#colocar imagem
-from PIL import Image
-image = Image.open('sunrise.jpg')
-
-st.image(image, caption='Sunrise by the mountains')
-
+st.subheader('Perfil d@ usuári@:')
 # importar os dados que serão usados no modelo
 df = pd.read_csv("1_filter.csv")
 
