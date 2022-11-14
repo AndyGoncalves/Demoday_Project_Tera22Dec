@@ -5,6 +5,8 @@ st.header("Perfil do usuário")
 
 profissoes = pd.read_csv("profissoesti.csv")
 
+st.write(profissoes)
+
 nome_profissao = st.selectbox(st.write(profissoes))
 
 name = st.text_input("Qual é o seu nome?")
