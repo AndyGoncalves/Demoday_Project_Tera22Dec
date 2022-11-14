@@ -1,9 +1,11 @@
 import streamlit as st
 import pandas as pd
 
+#nomear
 st.header("Perfil do usuário - inputs")
 
-df = pd.read_csv("Demoday_Project_Tera22Dec/1_filter.csv")
+#dados que serão usados 
+df = pd.read_csv("1_filter.csv")
 profissoes = df['nome_ocu'].sort_values().tolist() 
 
 ticker = st.sidebar.selectbox(
