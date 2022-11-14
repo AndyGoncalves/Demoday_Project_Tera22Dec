@@ -1,13 +1,10 @@
 import streamlit as st
-import numpy as np
 
-st.set_page_config(
-    page_title="Salários TI CAGED")
+st.header("Predição salário TERA")
 
-st.title("Salários TI CAGED")
+name = st.text_input("Qual é o seu nome?")
 
-df = pd.DataFrame(
-   np.random.randn(50, 20),
-   columns=('col %d' % i for i in range(20)))
-
-st.dataframe(df)  # Same as st.write(df)
+if(len(name)>0):
+    st.write(f'Seu nome é {name}')
+else:
+    st.write('Favor inserir seu nome!')
