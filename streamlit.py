@@ -1,6 +1,10 @@
 import streamlit as st
 import pandas as pd
 
+#nomear página
+st.set_page_config(
+    page_title="Demoday TERA 122022 Calculadora de salario TI")
+
 #nomear
 st.header("DEMODAY TITULO")
 
