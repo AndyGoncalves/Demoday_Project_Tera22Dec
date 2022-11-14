@@ -6,10 +6,10 @@ st.header("Perfil do usuário - inputs")
 
 #dados que serão usados 
 df = pd.read_csv("1_filter.csv")
-profissoes = df['nome_ocu'].unique().tolist() 
+profissoes = df['nome_ocu'].unique().tolist().sort_values()
 
 ticker = st.sidebar.selectbox(
-    'Escolha uma profissão',
+    'Qual a sua profissão em carteira?',
      profissoes)
 
 name = st.text_input("Qual é o seu nome?")
