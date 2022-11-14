@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
+import plotly.express as px
 
 #bibliotecas com erro -----------------------
 #import plotly.graph_objects as go
@@ -62,16 +63,16 @@ else:
 #-----------------------------------------------------------------
 #teste graficos
 
-#teste = pd.DataFrame({
-  #"Fruit": ["Apples", "Oranges", "Bananas", "Apples", "Oranges", "Bananas"],
- # "Contestant": ["Alex", "Alex", "Alex", "Jordan", "Jordan", "Jordan"],
- # "Number Eaten": [2, 1, 3, 1, 3, 2],
-#})
+teste = pd.DataFrame({
+  "Fruit": ["Apples", "Oranges", "Bananas", "Apples", "Oranges", "Bananas"],
+  "Contestant": ["Alex", "Alex", "Alex", "Jordan", "Jordan", "Jordan"],
+  "Number Eaten": [2, 1, 3, 1, 3, 2],
+})
 
 
-# Plotly Express import plotly.express as px
-#fig = px.bar(teste, x="Fruit", y="Number Eaten", color="Contestant", barmode="group")
-#fig.show()
+#Plotly Express import plotly.express as px
+fig = px.bar(teste, x="Fruit", y="Number Eaten", color="Contestant", barmode="group")
+st.plotly_chart(fig)
 
 
 # Graph Objects import plotly.graph_objects as go
