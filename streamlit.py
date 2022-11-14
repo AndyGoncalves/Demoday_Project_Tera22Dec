@@ -1,13 +1,13 @@
 import streamlit as st
 import pandas as pd
 
-st.header("Perfil do usuário")
+st.header("Perfil do usuário - inputs")
 
 profissoes = pd.read_csv("profissoesti.csv")
 
 st.write(profissoes)
 
-nome_profissao = st.selectbox(st.write(profissoes))
+nome_profissao = st.selectbox()
 
 name = st.text_input("Qual é o seu nome?")
 
