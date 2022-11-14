@@ -1,6 +1,12 @@
 import streamlit as st
+import yfinance as yf
+import datetime as dt
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 
 st.header("Predição salário TERA")
+
+profissoes = pd.read_csv("Datasets/profissoesti.csv")
 
 name = st.text_input("Qual é o seu nome?")
 
