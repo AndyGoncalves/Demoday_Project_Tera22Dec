@@ -31,7 +31,7 @@ txt = st.text_area('Text to analyze', '''
     Tamara
     ''')
 
-st.write('Informacões:', run_sentiment_analysis(txt))
+#??? st.write('Informacões:', run_sentiment_analysis(txt))
 
 # importar os dados que serão usados no modelo-------------------------
 df = pd.read_csv("1_filter.csv")
