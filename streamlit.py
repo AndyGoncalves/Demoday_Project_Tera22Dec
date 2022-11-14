@@ -21,7 +21,7 @@ st.set_page_config(
 st.header("DEMODAY TITULO")
 
 #criar texto apresentacao -------------------------------------------
-txt = st.text_area(''' Este é um trabalho de conclusão no curso "Data Science and Machine Learning"
+st.text_area(''' Este é um trabalho de conclusão no curso "Data Science and Machine Learning"
     turma 042022 - TERA. Autores: Andréia Gonçalves (@Andy), Ezequiel,Marcos (@onemarcos),Tamara''')
 
 #??? st.write('Informacões:', run_sentiment_analysis(txt))
