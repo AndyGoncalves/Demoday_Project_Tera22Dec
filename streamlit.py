@@ -4,13 +4,25 @@ import pandas as pd
 #nomear
 st.header("Perfil do usuário - inputs")
 
-#dados que serão usados 
+# importar os dados que serão usados no modelo
 df = pd.read_csv("1_filter.csv")
-profissoes = df['nome_ocu'].unique().tolist().sort_values()
+
+# definir as seleções - obs.: aperfeiçoar: .sort_values()
+profissoes = df['nome_ocu'].unique().tolist()
+sexo = df['sexo'].unique().tolist()
+raca = df['sexo'].unique().tolist()
 
 ticker = st.sidebar.selectbox(
     'Qual a sua profissão em carteira?',
      profissoes)
+
+ticker2 = st.sidebar.selectbox(
+    'Qual o seu gênero?',
+     sexo)
+
+ticker3 = st.sidebar.selectbox(
+    'Qual a sua raça?',
+     raca)
 
 name = st.text_input("Qual é o seu nome?")
 
