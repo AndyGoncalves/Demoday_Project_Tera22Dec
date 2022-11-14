@@ -6,7 +6,7 @@ from plotly.subplots import make_subplots
 
 st.header("Predição salário TERA")
 
-profissoes = pd.read_csv("Datasets/profissoesti.csv")
+profissoes = pd.read_csv("profissoesti.csv")
 
 name = st.text_input("Qual é o seu nome?")
 
