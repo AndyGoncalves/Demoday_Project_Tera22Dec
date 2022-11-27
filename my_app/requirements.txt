@@ -1,0 +1,5 @@
+plotly==5.11.0
+streamlit==1.4.0
+pandas==1.4.3
+Image==1.5.33
+numpy==1.23.1
