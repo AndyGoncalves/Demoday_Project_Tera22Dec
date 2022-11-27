@@ -1,7 +1,6 @@
 #----- IMPORTAR BIBLIOTECAS ------
 import pandas as pd # pip install pandas openpyxl
 import streamlit as st #pip install streamlit
-import plotly.express as px #pip install plotly-express
 import statistics
 import numpy
 from collections import defaultdict
