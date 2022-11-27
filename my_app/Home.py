@@ -13,10 +13,10 @@ body = '''Trabalho de conclusão de curso - Dez/2022.
 
 st.markdown(body, unsafe_allow_html=False)
 
-image1 = Image.open('my_app\\andreia.jpg') 
-image2 = Image.open('my_app\ezequiel.jpg')
-image3 = Image.open('my_app\marcos.jpg')
-image4 = Image.open('my_app\\tamara.jpg')
+image1 = Image.open('my_app/andreia.jpg') 
+image2 = Image.open('my_app/ezequiel.jpg')
+image3 = Image.open('my_app/marcos.jpg')
+image4 = Image.open('my_app/tamara.jpg')
 
 left_column, middle1_column, middle2_column, right_column = st.columns(4)
 with left_column:
