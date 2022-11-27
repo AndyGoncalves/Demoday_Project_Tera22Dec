@@ -5,148 +5,139 @@ import plotly.express as px #pip install plotly-express
 import statistics
 import numpy
 from collections import defaultdict
-#----- ETICA ------
-st.subheader('ATENÇÃO ÀS PREMISSAS:')
-body = '''
-1) Informações referentes à cidade de São Paulo, no ano 2022;
-2) Informações considerando que o empregador declarado é um 'CNPJ RAIZ', 'CPF' ou 'Não Identificado';
-3) A calculadora informa considerando apenas as informações declaradas via 'eSocial', 'CAGED' e 'EmpregadoWEB'.
-4) Salário mínimo 2022 a R$ 1.212,00. A métrica se basea na mediana do valor do salário.  
-'''
-st.markdown(body, unsafe_allow_html=False)
+
+@st.experimental_memo
+def filter_selections(df, **kwargs):
+    output_df = df.copy()
+    for col, values in kwargs.items():
+        if len(values) > 0:
+            output_df = output_df[output_df[col].isin(values)]
+    return output_df
+
+st.subheader('🚨 Atenção às premissas🚨')
+
+st.write("""
+        - Informações referentes à cidade de São Paulo, no ano 2022;
+        - Informações considerando que o empregador declarado é um 'CNPJ RAIZ', 'CPF' ou 'Não Identificado';
+        - A calculadora informa considerando apenas as informações declaradas via 'eSocial', 'CAGED' e 'EmpregadoWEB'.
+        - Salário mínimo 2022 a R$ 1.212,00. A métrica se basea na mediana do valor do salário.
+        """)
 st.markdown("---")
 
-# ----- CARREGAR BASE DE DADOS -----
-df = pd.read_csv("caged.csv") 
-# ----- VISUALIZAR BASE --------
-#st.dataframe(df)
-#st.write(df.columns)
-# ----- SIDEBAR -----
-st.sidebar.header("Defina seu perfil aqui: ")
-#profissao, sexo, idade, raca, deficiencia, grau
+select_filter = {}
 
-# ----- PROFISSAO -----
-descricao = st.sidebar.selectbox(
-    "Selecione o cargo:",
-    options=df["Descrição"].unique()
-)
-# ----- SEXO -----
+df = pd.read_csv("my_app/caged.csv")
+st.header("Defina seu perfil aqui: ")
+
+dic_racacor = {
+    1:'Branca',
+    2:'Preta',
+    3:'Parda',
+    4:'Amarela',
+    5:'Indígena',
+    6:'Não informada',
+    7:'Não Identificado'
+}
 
 dic_sexo = {
-1:"homem",
-3:"mulher"
+    1:"homem",
+    3:"mulher"
 }
 
-#values()
-sexo = st.sidebar.selectbox(
-    "Selecione o gênero:",
-    options=list(dic_sexo.values())
-    )
-# ----- IDADE -----
-idade = st.sidebar.slider('Qual a sua idade?', 17, 72, 25)
-#no banco de dados vai até a idade 72 anos.
-
-# ----- RACA -----
-dic_racacor = {
-1:'Branca',
-2:'Preta',
-3:'Parda',
-4:'Amarela',
-5:'Indígena',
-6:'Não informada',
-7:'Não Identificado'
-}
-
-racacor = st.sidebar.selectbox(
-    "Selecione sua cor:",
-    options=list(dic_racacor.values())
-)
-
-
-# ----- DEFICIENCIA -----
-dic_deficiencia = {
-0:'Não Deficiente',
-1:'Física',
-2:'Auditiva',
-3:'visual',
-4:'AIntelectual (Mental)',
-5:'Múltipla',
-6:'Reabilitado',
-9:'Não Identificado'
-}
-
-deficiencia = st.sidebar.selectbox(
-    "Tipo de deficiência:",
-    options=list(dic_deficiencia.values())
-)
-
-# ----- ESCOLARIDADE -----
 dic_grau = {
-1:'Analfabeto',
-2:'Até 5ª Incompleto',
-3:'5ª Completo Fundamental',
-4:'6ª a 9ª Fundamental',
-5:'Fundamental Completo',
-6:'Médio Incompleto',
-7:'Médio Completo',
-8:'Superior Incompleto',
-9:'Superior Completo',
-10:'Mestrado',
-11:'Doutorado',
-80:'Pós-Graduação completa',
-99:'Não Identificado'
+    1:'Analfabeto',
+    2:'Até 5ª Incompleto',
+    3:'5ª Completo Fundamental',
+    4:'6ª a 9ª Fundamental',
+    5:'Fundamental Completo',
+    6:'Médio Incompleto',
+    7:'Médio Completo',
+    8:'Superior Incompleto',
+    9:'Superior Completo',
+    10:'Mestrado',
+    11:'Doutorado',
+    80:'Pós-Graduação completa',
+    99:'Não Identificado'
 }
 
-graudeinstrucao = st.sidebar.selectbox(
-    "Selecione o grau de instrução:",
-    options=list(dic_grau.values())
-)
+dic_deficiencia = {
+    0:'Não Deficiente',
+    1:'Física',
+    2:'Auditiva',
+    3:'visual',
+    4:'AIntelectual (Mental)',
+    5:'Múltipla',
+    6:'Reabilitado',
+    9:'Não Identificado'
+}
 
-# ----- QUERY COM FILTROS -----
-#preciso incluir um if se caso não tiver a busca com o perfil selecionado
-df_selection = df.query(
-"Descrição == @descricao & sexo==@sexo & idade == @idade & raçacor==@racacor & tipodedeficiência==@deficiencia & graudeinstrução==@graudeinstrucao"
-)
+with st.form("my form"):
 
+    col_1, col_2 = st.columns((5, 5))
 
-#df_selection = df.query(
-#"Descrição == @descricao & sexo==@sexo & idade == @idade & raçacor==@racacor & tipodedeficiência==@deficiencia & graudeinstrução==@graudeinstrucao"
-#)   #AttributeError: 'float' object has no attribute 'round'
+    with col_1:
+        descricao = st.multiselect(
+            "Selecione o cargo:",
+            options=df["Descrição"].unique()
+        )
 
+        select_filter["sexo_name"] = st.multiselect(
+            "Selecione o gênero:",
+            options=list(dic_sexo.values())
+            )
 
+        idade = st.slider('Qual a sua idade?', 17, 72, 25)
 
+    with col_2:
+        select_filter["raca_name"] = st.multiselect(
+            "Selecione sua cor:",
+            options=list(dic_racacor.values())
+        )
 
-#df_selection = df.query(
-#"Descrição == @descricao & sexo.isin(@sexo) & idade == @idade & raçacor.isin(@racacor) & tipodedeficiência.isin(@deficiencia) & graudeinstrução.isin(@graudeinstrucao)"
-#)
-      
+        select_filter["defic_name"] = st.multiselect(
+            "Tipo de deficiência:",
+            options=list(dic_deficiencia.values())
+        )
 
-#df_selection = df.query(
-#"Descrição == @descricao & sexo.isin(@dic_sexo) & idade == @idade & raçacor.isin(@dic_racacor) & tipodedeficiência.isin(@dic_deficiencia) & graudeinstrução.isin(@dic_grau)"
-#)
+        select_filter["grau_inst"] = st.multiselect(
+            "Selecione o grau de instrução:",
+            options=list(dic_grau.values())
+        )
+    calc_button = st.form_submit_button("Calcular meu salário!")
 
+if calc_button:
+    df["raca_name"] = df["raçacor"].apply(lambda x: dic_racacor[x])
+    df["grau_inst"] = df["graudeinstrução"].apply(lambda x: dic_grau[x])
+    df["defic_name"] = df["tipodedeficiência"].apply(lambda x: dic_deficiencia[x])
+    df["sexo_name"] = df["sexo"].apply(lambda x: dic_sexo[x])
 
-# ----- MAINPAGE -----
-st.title("SAIBA SEU SALÁRIO DE MERCADO:")
-st.subheader(f"{descricao}")
+    df.drop(["raçacor", "graudeinstrução", "tipodedeficiência", "sexo", "Unnamed: 0.1", "Unnamed: 0"], axis=1, inplace=True)
+    df = df[df["idade"] == idade]
+    df_selection = filter_selections(df, **select_filter)
 
-#st.metric(label="Temperature", value="70 °F", delta="1.2 °F")
-# ----- TOP KPI'S -----
-salario_max = df_selection["salário"].max()
-salario_min = df_selection["salário"].min()
-salario_mediano = df_selection["salário"].median()
-#salario_moda = df_selection["salário"].mode()
-salario_minimo = 1212.00
-percentual_minimo=(((salario_min - salario_mediano)*100/salario_min).round(2))
-percentual_maximo=(((salario_max - salario_mediano)*100/salario_max).round(2))
-#percentual_moda= (((salario_moda - salario_minimo)*100/salario_moda).round(2))
-#st.metric(label="Gas price", value=percentual_minimo, delta=percentual_minimo)
+    df_selection.reset_index(inplace=True)
+    if df_selection["salário"].empty:
+        st.warning("Não foi encontrado salário para o perfil selecionado! Por favor, modifique as opções selecionadas.")
+    else:
+        salario_max = df_selection["salário"].max()
+        salario_min = df_selection["salário"].min()
+        salario_mediano = df_selection["salário"].median()
+        salario_moda = statistics.mode(df_selection["salário"])
 
-col1, col2, col3 = st.columns(3)
-col1.metric("Salário máximo:", f"R${salario_max:,.2f}", percentual_maximo)
-col2.metric("Salário mínimo:", f"R${salario_min:,.2f}",percentual_minimo)
-col3.metric("Salário mediano:", f"R${salario_mediano:,.2f}")
-#col3.metric("Salário frequente:", salario_moda, percentual_moda)
-#colocar indicador percentual acima do salário mínimo
+        percentual_minimo = round(((salario_min - salario_mediano)*100/salario_min), 2)
+        percentual_maximo = round(((salario_max - salario_mediano)*100/salario_max), 2)
 
-st.markdown("---")
+        percentual_minimo = round(((salario_min - salario_mediano)*100/salario_min), 2)
+        percentual_maximo = round(((salario_max - salario_mediano)*100/salario_max), 2)
+
+        col1, col2, col3, col4 = st.columns((3,3,3,3))
+        with col1:
+            st.metric("Salário máximo", f"R${salario_max:,.2f}", f"{percentual_maximo}%")
+        with col2:
+            st.metric("Salário mínimo", f"R${salario_min:,.2f}", f"{percentual_minimo}%")
+        with col3:
+            st.metric("Salário mediano", f"R${salario_mediano:,.2f}")
+        with col4:
+            st.metric("Moda do salário", f"R${salario_moda:,.2f}")
+
+        st.markdown("---")
